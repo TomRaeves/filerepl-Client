@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
 public class Client {
 
     //https://www.baeldung.com/java-broadcast-multicast
@@ -25,6 +29,8 @@ public class Client {
     private static boolean running = true;
 
     public static void main(String[] args) {
+        SpringApplication.run(Client.class, args);
+
         Scanner sc = new Scanner(System.in);
         //Hostname
         System.out.println("Choose your hostname: ");
