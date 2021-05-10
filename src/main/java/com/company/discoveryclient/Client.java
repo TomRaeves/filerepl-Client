@@ -40,7 +40,7 @@ public class Client {
         Client.nextNodeID = Client.currentNodeID;
         Client.previousNodeID = Client.currentNodeID;
         //ServerIP
-        System.out.println("Give the name of the server: ");
+        System.out.println("Give the IP-address of the server: ");
         String sAddress = sc.nextLine();
         InetAddress serverAddress = null;
         try {
@@ -91,7 +91,7 @@ public class Client {
                     System.out.println("Leave network: 'Exit'");
                     System.out.println("Get ID of a node: 'getID'");
                     System.out.println("Add file to client: 'addFile'");
-                    System.out.println("Find ID of host where file is saved: 'searchFile'");
+                    System.out.println("Find ID of host where file is saved: 'searchFile'\n");
                     break;
 
                 case "getID":
@@ -103,7 +103,7 @@ public class Client {
                     break;
 
                 case "addFile":
-                    System.out.println("Give the name for the file to be added: ");
+                    System.out.println("\nGive the name for the file to be added: ");
                     String name = sc.nextLine();
                     try {
                         sendPUT("addFile/"+name,sAddress);
@@ -113,7 +113,7 @@ public class Client {
                     break;
 
                 case "searchFile":
-                    System.out.println("Give the name of the file you want to find the owner of: ");
+                    System.out.println("\nGive the name of the file you want to find the owner of: ");
                     name = sc.nextLine();
                     try {
                         sendGET("searchFile/"+name,sAddress);
@@ -126,7 +126,7 @@ public class Client {
                     break;
             }
         }
-        System.out.println("Quiting program, till next time!");
+        System.out.println("\nQuiting program, till next time!");
         System.exit(0);
     }
 
@@ -231,7 +231,7 @@ public class Client {
     //this is point 5c-d of Discovery and Bootstrap
     public static void update(int id, InetAddress hostAddress) {
         Client.amountOtherNodes = Client.amountOtherNodes + 1;
-        System.out.println("New node detected with hash: "+id+" , other nodes on network: " + Client.amountOtherNodes);
+        System.out.println("\nNew node detected with hash: "+id+" , other nodes on network: " + Client.amountOtherNodes);
         //Als de eerste client joined in het netwerk
         if (Client.currentNodeID == Client.nextNodeID && Client.currentNodeID == Client.previousNodeID) {
             Client.previousNodeID = id;
@@ -269,9 +269,7 @@ public class Client {
                 sendUnicast("I ["+Client.currentNodeID+"], have put you as my previousNode",hostAddress);
             }
         }
-        System.out.println("\nOther nodes in the network: "+Client.amountOtherNodes);
-        System.out.println("Previous ID: " + Client.previousNodeID + " || Current ID: "+Client.currentNodeID+" || Next ID: " + Client.nextNodeID);
-        System.out.println("Give a command: <help> for a list of all commands");
+        topologyInfo();
     }
 
     /*
@@ -329,9 +327,7 @@ public class Client {
         }
         else
             Client.amountOtherNodes = Integer.parseInt(message);
-        System.out.println("\nOther nodes in the network: "+Client.amountOtherNodes);
-        System.out.println("Previous ID: " + Client.previousNodeID + " || Current ID: "+Client.currentNodeID+" || Next ID: " + Client.nextNodeID);
-        System.out.println("Give a command: <help> for a list of all commands");
+        topologyInfo();
     }
 
     public static void exitUpdateNext(String message) {
@@ -342,9 +338,7 @@ public class Client {
         exitID = message.substring(index+1);
         System.out.println(exitID+" sends exit, updating nextNodeID to : "+newID);
         Client.nextNodeID = Integer.parseInt(newID);
-        System.out.println("\nOther nodes in the network: "+Client.amountOtherNodes);
-        System.out.println("Previous ID: " + Client.previousNodeID + " || Current ID: "+Client.currentNodeID+" || Next ID: " + Client.nextNodeID);
-        System.out.println("Give a command: <help> for a list of all commands");
+        topologyInfo();
     }
 
     public static void exitUpdatePrev(String message) {
@@ -355,6 +349,10 @@ public class Client {
         exitID = message.substring(index+1);
         System.out.println(exitID+" sends exit, updating previousNodeID to : "+newID);
         Client.nextNodeID = Integer.parseInt(newID);
+        topologyInfo();
+    }
+
+    public static void topologyInfo(){
         System.out.println("\nOther nodes in the network: "+Client.amountOtherNodes);
         System.out.println("Previous ID: " + Client.previousNodeID + " || Current ID: "+Client.currentNodeID+" || Next ID: " + Client.nextNodeID);
         System.out.println("Give a command: <help> for a list of all commands");
