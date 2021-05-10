@@ -298,11 +298,9 @@ public class Client {
                 }
             }
         }
-        System.out.println("----------------------------------------------------");
-        System.out.println("Other nodes in the network: "+(nodes.size()-1));
+        System.out.println("\nOther nodes in the network: "+(nodes.size()-1));
         System.out.println("Previous ID: " + previousNodeID + " || Current ID: "+currentNodeID+" || Next ID: " + nextNodeID);
         System.out.println("Give a command: <help> for a list of all commands");
-        System.out.println("----------------------------------------------------");
     }*/
 
     public static void updateInitial(String message) {
