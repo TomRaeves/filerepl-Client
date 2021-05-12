@@ -90,6 +90,7 @@ public class Client {
                     System.out.println("Leave network: 'Exit'");
                     System.out.println("Get ID of a node: 'getID'");
                     System.out.println("Add file to client: 'addFile'");
+                    System.out.println("Show your previous and next ID: 'show'");
                     System.out.println("Find ID of host where file is saved: 'searchFile'\n");
                     break;
 
@@ -119,6 +120,10 @@ public class Client {
                     } catch (IOException err) {
                         err.printStackTrace();
                     }
+                    break;
+
+                case "show":
+                    topologyInfo();
                     break;
 
                 default:
