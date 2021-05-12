@@ -65,6 +65,7 @@ public class UDPReceiveHandler extends Thread {
                 break;
             case "NewPrev":
                 Client.exitUpdatePrev(message);
+                Client.topologyInfo();
                 break;
             default:
                 break;

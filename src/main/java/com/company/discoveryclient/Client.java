@@ -305,7 +305,6 @@ public class Client {
         exitID = message.substring(index+1);
         System.out.println(exitID+" sends exit, updating nextNodeID to : "+newID);
         Client.nextNodeID = Integer.parseInt(newID);
-        topologyInfo();
     }
 
     public static void exitUpdatePrev(String message) {
@@ -315,8 +314,7 @@ public class Client {
         newID = message.substring(0,index);
         exitID = message.substring(index+1);
         System.out.println(exitID+" sends exit, updating previousNodeID to : "+newID);
-        Client.nextNodeID = Integer.parseInt(newID);
-        topologyInfo();
+        Client.previousNodeID = Integer.parseInt(newID);
     }
 
     public static void topologyInfo(){
@@ -324,5 +322,4 @@ public class Client {
         System.out.println("Previous ID: " + Client.previousNodeID + " || Current ID: "+Client.currentNodeID+" || Next ID: " + Client.nextNodeID);
         System.out.println("Give a command: <help> for a list of all commands");
     }
-
 }
