@@ -3,7 +3,6 @@ package com.company.discoveryclient;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Scanner;
 
 import org.springframework.boot.SpringApplication;
@@ -272,44 +271,7 @@ public class Client {
         topologyInfo();
     }
 
-    /*
-    public static void update(int id, InetAddress hostAddress){
-        nodes.add(id);
-        System.out.println(nodes);
-        System.out.println("Sorting nodes through their ID's...");
-        Collections.sort(nodes);
-        System.out.println(nodes);
-
-        if(nodes.size()==2){
-            nextNodeID=id;
-            previousNodeID=id;
-        }
-        else{
-            for (int i = 0; i < nodes.size(); i++) {
-                if(nodes.get(i)==currentNodeID){
-                    if(i==0){
-                        previousNodeID=nodes.get(nodes.size());
-                        nextNodeID=nodes.get(1);
-                    }
-                    else if(i==nodes.size()-1){
-                        previousNodeID=nodes.get(nodes.size()-2);
-                        nextNodeID=nodes.get(0);
-                    }
-                    else{ // normale werking
-                        nextNodeID=nodes.get(i+1);
-                        previousNodeID= nodes.get(i-1);
-                    }
-                }
-            }
-        }
-        System.out.println("\nOther nodes in the network: "+(nodes.size()-1));
-        System.out.println("Previous ID: " + previousNodeID + " || Current ID: "+currentNodeID+" || Next ID: " + nextNodeID);
-        System.out.println("Give a command: <help> for a list of all commands");
-    }*/
-
     public static void updateInitial(String message) {
-        //VB message: 3
-        //VB message: 3, Previous ID: 68465, Next ID: 321846
         String amount;
         String previous;
         String next;
