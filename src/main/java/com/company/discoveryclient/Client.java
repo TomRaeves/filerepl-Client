@@ -18,7 +18,7 @@ public class Client {
     private static final int multiCastPort = 3456;
     private static final String multicastAddress = "225.6.7.8"; //Dit moet nog specifiek worden
 
-    private static int amountOtherNodes = -1;
+    private static int amountOtherNodes = 0;
     private static ArrayList<Integer> nodes;
 
     private static int previousNodeID = -1;
