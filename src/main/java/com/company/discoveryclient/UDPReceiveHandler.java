@@ -61,9 +61,11 @@ public class UDPReceiveHandler extends Thread {
                 Client.updateInitial(message);
                 break;
             case "NewNext":
+                System.out.println("Updating the next ID...");
                 Client.exitUpdateNext(message);
                 break;
             case "NewPrev":
+                System.out.print("Updating the previous ID...");
                 Client.exitUpdatePrev(message);
                 Client.topologyInfo();
                 break;
