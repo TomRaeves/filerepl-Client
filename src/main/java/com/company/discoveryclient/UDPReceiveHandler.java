@@ -62,6 +62,7 @@ public class UDPReceiveHandler extends Thread {
                 Client.updateInitial(message);
                 break;
             case "NewNext":
+                Client.amountOtherNodes = Client.amountOtherNodes - 1;
                 System.out.println("Updating the next ID...");
                 Client.exitUpdateNext(message);
                 break;
