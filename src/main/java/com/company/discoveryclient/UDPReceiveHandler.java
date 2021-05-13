@@ -56,6 +56,7 @@ public class UDPReceiveHandler extends Thread {
             message = data.substring(index+1);
         }
         assert command != null;
+        System.out.println("\nThe command is: "+command);
         switch (command){
             case "Other nodes in the network":
                 Client.updateInitial(message);
