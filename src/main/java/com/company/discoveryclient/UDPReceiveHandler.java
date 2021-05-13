@@ -56,17 +56,19 @@ public class UDPReceiveHandler extends Thread {
             message = data.substring(index+1);
         }
         assert command != null;
-        System.out.println("\nThe command is: "+command);
         switch (command){
             case "Other nodes in the network":
+                System.out.println("\nThe command is: "+command);
                 Client.updateInitial(message);
                 break;
             case "NewNext":
                 Client.amountOtherNodes = Client.amountOtherNodes - 1;
+                System.out.println("\nThe command is: "+command);
                 System.out.println("Updating the next ID...");
                 Client.exitUpdateNext(message);
                 break;
             case "NewPrev":
+                System.out.println("\nThe command is: "+command);
                 System.out.print("Updating the previous ID...");
                 Client.exitUpdatePrev(message);
                 Client.topologyInfo();
