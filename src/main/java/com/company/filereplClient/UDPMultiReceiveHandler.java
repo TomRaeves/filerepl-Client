@@ -1,4 +1,4 @@
-package com.company.discoveryclient;
+package com.company.filereplClient;
 
 import java.io.IOException;
 import java.net.*;
