@@ -175,8 +175,8 @@ public class Client {
                 try {
                     socket = new Socket(serverAddress, TCPServerSendPort);
                     outputStream = Objects.requireNonNull(socket).getOutputStream();
-                    dataOutputStream = new DataOutputStream(outputStream);
                     inputStream = Objects.requireNonNull(socket).getInputStream();
+                    dataOutputStream = new DataOutputStream(outputStream);
                     dataInputStream = new DataInputStream(Objects.requireNonNull(inputStream));
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -191,7 +191,7 @@ public class Client {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                TCPFileSendHandler TCPFileSend = new TCPFileSendHandler(received,file.getFilename(),hostName,TCPFileSendPort,file.getFilename());
+                TCPFileSendHandler TCPFileSend = new TCPFileSendHandler(received,file.getFilename(),hostName,TCPFileSendPort,file.getFilename()); //moet laatste niet filepath zijn ???
                 TCPFileSend.start();
                 try {
                     socket.close();
