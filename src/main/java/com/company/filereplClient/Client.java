@@ -3,7 +3,17 @@ package com.company.filereplClient;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Objects;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.stream.Stream;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -12,17 +22,23 @@ public class Client {
 
     //https://www.baeldung.com/java-broadcast-multicast
 
+    //This is for UDP
     private static final int receivePort = 4500;
     private static final int sendPort = 4501;
     private static final int multiCastPort = 3456;
     private static final String multicastAddress = "225.10.10.10"; //Dit moet nog specifiek worden
 
+    //This is for TCP
+    private static final int TCPServerSendPort = 5501;
+    private static final int TCPFileSendPort = 5502;
+    private static final int TCPFileReceivePort = TCPFileSendPort;
+
     public static int amountOtherNodes = 0;
-    private static ArrayList<Integer> nodes;
 
     private static int previousNodeID = -1;
     private static int currentNodeID= -1;
     private static int nextNodeID = -1;
+    private static String hostName;
 
     private static boolean running = true;
 
@@ -68,6 +84,11 @@ public class Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //TCPFileHandler
+        TCPFileReceiveHandler TCPFileReceive = new TCPFileReceiveHandler(TCPFileReceivePort);
+        TCPFileReceive.start();
+
         while(Client.running) {
             String command = sc.nextLine();
             switch (command) {
@@ -78,10 +99,11 @@ public class Client {
                     if (UDPMultiReceiveHandler != null) {
                         UDPMultiReceiveHandler.shutdown();
                     }
-                    try {
-                        sendPUT("removeNode", sAddress);
-                    }catch (IOException err) {err.printStackTrace();}
+                    TCPFileReceive.shutdown();
                     Client.running = false;
+                    //try {
+                    //    sendPUT("removeNode", sAddress);
+                    //}catch (IOException err) {err.printStackTrace();}
                     break;
 
                 case "help":
@@ -131,6 +153,76 @@ public class Client {
         }
         System.out.println("\nQuiting program, till next time!");
         System.exit(0);
+    }
+
+    private static void replicationStart(InetAddress serverAddress) {
+        System.out.println(" ");
+        System.out.println("----------------------------------------------------");
+        System.out.println("Starting replication process...");
+        String location = System.getProperty("user.dir");
+        ArrayList<String> fileList = new ArrayList<>();
+        fileList = scanFiles(location);
+        if (fileList.size() != 0) {
+            Iterator<String> iterator = fileList.iterator();
+            System.out.println("Creating TCP connection with server on port: "+TCPServerSendPort);
+            while(iterator.hasNext()){
+                Socket socket = null;
+                OutputStream outputStream = null;
+                InputStream inputStream = null;
+                DataOutputStream dataOutputStream = null;
+                DataInputStream dataInputStream = null;
+                String received = null;
+                try {
+                    socket = new Socket(serverAddress, TCPServerSendPort);
+                    outputStream = Objects.requireNonNull(socket).getOutputStream();
+                    dataOutputStream = new DataOutputStream(outputStream);
+                    inputStream = Objects.requireNonNull(socket).getInputStream();
+                    dataInputStream = new DataInputStream(Objects.requireNonNull(inputStream));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                NodeFile file = new NodeFile(iterator.next());
+                try {
+                    dataOutputStream.writeUTF(hostName+","+file.getFilename()); //hostName,fileName
+                    System.out.println("Sending TCP: ["+serverAddress+"]: "+hostName+","+file.getFilename());
+                    dataOutputStream.flush();
+                    received = dataInputStream.readUTF();
+                    System.out.println("[" + socket.getInetAddress() + "]TCP packet received: " + received);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                TCPFileSendHandler TCPFileSend = new TCPFileSendHandler(received,file.getFilename(),hostName,TCPFileSendPort,file.getFilename());
+                TCPFileSend.start();
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            System.out.println("Closing TCP connection on port: "+TCPServerSendPort);
+        }else
+            System.out.println("No files on this node, waiting for replicated files from other nodes...");
+        System.out.println("----------------------------------------------------");
+    }
+
+    private static ArrayList<String> scanFiles(String fileLocation) {
+        fileLocation = fileLocation.concat("/nodeFiles"); //for Linux
+        //fileLocation = fileLocation.concat("\\nodeFiles"); //for windows
+        try (Stream<Path> walk = Files.walk(Paths.get(fileLocation))) {
+            ArrayList<String> fileList = new ArrayList<>();
+            List<String> result = walk.filter(Files::isRegularFile).map(x -> x.toString()).collect(Collectors.toList());
+            //remove full directory, so that only the filename remains and add to "fileList"
+            for (String x : result) {
+                x = x.replaceAll("[\\/|\\\\|\\*|\\:|\\||\"|\'|\\<|\\>|\\{|\\}|\\?|\\%|,]","");
+                String[] parts = x.split("nodeFiles"); //add directory name here
+                String file = parts[1];
+                fileList.add(file);
+            }
+            return fileList;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static int hashCode(String input){ //This is point 2 of Discovery and Bootstrap
