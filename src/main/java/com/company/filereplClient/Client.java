@@ -32,6 +32,7 @@ public class Client {
     private static final int TCPServerSendPort = 5501;
     private static final int TCPFileSendPort = 5502;
     private static final int TCPFileReceivePort = TCPFileSendPort;
+    private static InetAddress serverAddress;
 
     public static int amountOtherNodes = 0;
 
@@ -373,6 +374,7 @@ public class Client {
         String next;
         int index = message.indexOf(",");
         if (index != -1) {
+            replicationStart(serverAddress);
             amount = message.substring(0, index);
             index = (message.indexOf("Previous ID: ")) + 13;
             int indexx = message.indexOf(", Next ID: ");
