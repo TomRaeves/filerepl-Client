@@ -102,57 +102,27 @@ public class Client {
                     }
                     TCPFileReceive.shutdown();
                     Client.running = false;
-                    //try {
-                    //    sendPUT("removeNode", sAddress);
-                    //}catch (IOException err) {err.printStackTrace();}
                     break;
 
                 case "help":
                     System.out.println("List of all commands:");
                     System.out.println("Leave network: 'Exit'");
-                    System.out.println("Get ID of a node: 'getID'");
-                    System.out.println("Add file to client: 'addFile'");
-                    System.out.println("Show your previous and next ID: 'show'");
-                    System.out.println("Find ID of host where file is saved: 'searchFile'\n");
+                    System.out.println("Show the hashMap of the nodes on the server: 'getNodesMap'");
                     break;
 
-                case "getID":
-                    try {
-                        sendGET("getID",sAddress);
-                    } catch (IOException err) {
-                        err.printStackTrace();
+                case "getNodesMap":
+                    try{
+                        sendGET(("getMap"),sAddress);
+                    } catch (IOException e){
+                        e.printStackTrace();
                     }
-                    break;
-
-                case "addFile":
-                    System.out.println("\nGive the name for the file to be added: ");
-                    String name = sc.nextLine();
-                    try {
-                        sendPUT("addFile/"+name,sAddress);
-                    } catch (IOException err) {
-                        err.printStackTrace();
-                    }
-                    break;
-
-                case "searchFile":
-                    System.out.println("\nGive the name of the file you want to find the owner of: ");
-                    name = sc.nextLine();
-                    try {
-                        sendGET("searchFile/"+name,sAddress);
-                    } catch (IOException err) {
-                        err.printStackTrace();
-                    }
-                    break;
-
-                case "show":
-                    topologyInfo();
                     break;
 
                 default:
                     break;
             }
         }
-        System.out.println("\nQuiting program, till next time!");
+        System.out.println("\nQuiting program, Freeing all resources!");
         System.exit(0);
     }
 
