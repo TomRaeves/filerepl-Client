@@ -18,6 +18,7 @@ public class TCPFileSendHandler extends Thread{
     public TCPFileSendHandler(String received, String filename, String hostName, int tcpFileSendPort, String filePath) {
         fileName = filename;
         String temp = received.substring(1);
+        temp = "1"+temp;
         try {
             sendAddress = InetAddress.getByName(temp);
         } catch (UnknownHostException e) {

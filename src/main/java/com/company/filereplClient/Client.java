@@ -48,7 +48,7 @@ public class Client {
         Scanner sc = new Scanner(System.in);
         //Hostname
         System.out.println("Choose your hostname: ");
-        String hostName = sc.nextLine();
+        hostName = sc.nextLine();
         //hostID
         Client.currentNodeID = hashCode(hostName); //read the name and then hash the name ////this is point 5b of Discovery and Bootstrap
         Client.nextNodeID = Client.currentNodeID;
