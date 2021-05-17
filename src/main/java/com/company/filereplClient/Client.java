@@ -142,7 +142,6 @@ public class Client {
                 DataInputStream dataInputStream = null;
                 String received = null;
                 try {
-                    System.out.println("server address in replication start is: "+serverAddress);
                     socket = new Socket(serverAddress, TCPServerSendPort);
                     outputStream = Objects.requireNonNull(socket).getOutputStream();
                     inputStream = Objects.requireNonNull(socket).getInputStream();
