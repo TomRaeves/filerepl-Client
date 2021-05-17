@@ -14,8 +14,8 @@ public class TCPFileReceiveHandler extends  Thread {
     public TCPFileReceiveHandler(int tcpFileReceivePort) {
         port = tcpFileReceivePort;
         path = System.getProperty("user.dir");
-        path = path.concat("\\receivedFiles");    //Windows
-        //path = path.concat("/receivedFiles");   //Linux
+        //path = path.concat("\\receivedFiles");    //Windows
+        path = path.concat("/receivedFiles");   //Linux
         try {
             serverSocket = new ServerSocket(port);
         } catch (IOException e) {

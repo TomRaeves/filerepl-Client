@@ -33,6 +33,7 @@ public class Client {
     private static final int TCPFileSendPort = 5502;
     private static final int TCPFileReceivePort = TCPFileSendPort;
     private static InetAddress serverAddress;
+    private static String sAddress;
 
     public static int amountOtherNodes = 0;
 
@@ -56,7 +57,7 @@ public class Client {
         Client.previousNodeID = Client.currentNodeID;
         //ServerIP
         System.out.println("Give the IP-address of the server: ");
-        String sAddress = sc.nextLine();
+        sAddress = sc.nextLine();
         InetAddress serverAddress = null;
         try {
             serverAddress = InetAddress.getByName(sAddress); //find the server IP using it's name
@@ -144,7 +145,7 @@ public class Client {
                 DataInputStream dataInputStream = null;
                 String received = null;
                 try {
-                    socket = new Socket(serverAddress, TCPServerSendPort);
+                    socket = new Socket(sAddress, TCPServerSendPort);
                     outputStream = Objects.requireNonNull(socket).getOutputStream();
                     inputStream = Objects.requireNonNull(socket).getInputStream();
                     dataOutputStream = new DataOutputStream(outputStream);
