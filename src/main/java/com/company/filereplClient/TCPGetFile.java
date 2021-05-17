@@ -66,8 +66,8 @@ public class TCPGetFile extends Thread{
             try {
                 if (!fileName.equals(null) && !hostName.equals(null)) {
                     System.out.println("[" + TCPGetFile.currentThread().getId() + " | " + TCPGetFile.currentThread().getName() + "] receiving file " + fileName);
-                    //fileOutputStream = new FileOutputStream(path+"/"+fileName);  //linux
-                    fileOutputStream = new FileOutputStream(path+"\\"+fileName);  //windows
+                    fileOutputStream = new FileOutputStream(path+"/"+fileName);  //linux
+                    //fileOutputStream = new FileOutputStream(path+"\\"+fileName);  //windows
                     bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
                     /*int bytesRead = inputStream.read(byteArray, 0, byteArray.length);
                     int current = bytesRead;
