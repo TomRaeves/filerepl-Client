@@ -33,8 +33,6 @@ public class Client {
     private static final int TCPFileSendPort = 5502;
     private static final int TCPFileReceivePort = TCPFileSendPort;
     private static InetAddress serverAddress;
-    private static String sAddress;
-
     public static int amountOtherNodes = 0;
 
     private static int previousNodeID = -1;
@@ -57,8 +55,7 @@ public class Client {
         Client.previousNodeID = Client.currentNodeID;
         //ServerIP
         System.out.println("Give the IP-address of the server: ");
-        sAddress = sc.nextLine();
-        InetAddress serverAddress = null;
+        String sAddress = sc.nextLine();
         try {
             serverAddress = InetAddress.getByName(sAddress); //find the server IP using it's name
         } catch (UnknownHostException e) {
@@ -145,7 +142,8 @@ public class Client {
                 DataInputStream dataInputStream = null;
                 String received = null;
                 try {
-                    socket = new Socket(sAddress, TCPServerSendPort);
+                    System.out.println("server address in replication start is: "+serverAddress);
+                    socket = new Socket(serverAddress, TCPServerSendPort);
                     outputStream = Objects.requireNonNull(socket).getOutputStream();
                     inputStream = Objects.requireNonNull(socket).getInputStream();
                     dataOutputStream = new DataOutputStream(outputStream);
