@@ -29,7 +29,7 @@ public class Client {
     private static final String multicastAddress = "225.10.10.10"; //Dit moet nog specifiek worden
 
     //This is for TCP
-    private static final int TCPServerSendPort = 5501;
+    private static final int TCPServerSendPort = 5500;
     private static final int TCPFileSendPort = 5502;
     private static final int TCPFileReceivePort = TCPFileSendPort;
     private static InetAddress serverAddress;
@@ -112,7 +112,7 @@ public class Client {
 
                 case "getNodesMap":
                     try{
-                        sendGET(("getMap"),sAddress);
+                        sendGET(("getNodesMap"),sAddress);
                     } catch (IOException e){
                         e.printStackTrace();
                     }
