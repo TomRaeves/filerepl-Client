@@ -27,9 +27,7 @@ public class TCPFileSendHandler extends Thread{
         TCPFileSendHandler.hostName = hostName;
         port = tcpFileSendPort;
         String workingDirectory = System.getProperty("user.dir");
-        //String filesLocation = workingDirectory+"\\nodeFiles";   //Windows
         String filesLocation = workingDirectory+"/nodeFiles";   //Linux
-        //path = filesLocation+"\\"+filePath; //Windows
         path = filesLocation+"/"+filePath;  //Linux
     }
 
