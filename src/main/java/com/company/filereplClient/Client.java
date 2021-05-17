@@ -189,6 +189,7 @@ public class Client {
                 String file = parts[1];
                 fileList.add(file);
             }
+            System.out.println(fileList);
             return fileList;
         } catch (IOException e) {
             e.printStackTrace();
